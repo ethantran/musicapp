@@ -14,6 +14,8 @@ const TwelveTETDemo: React.FC = () => {
     const [synth, setSynth] = useState<Tone.Synth | null>(null);
     const [highlightedKeys, setHighlightedKeys] = useState<number[]>([]);
     const [isPlayingSequence, setIsPlayingSequence] = useState(false);
+    const [currentNote, setCurrentNote] = useState<string | null>(null);
+    const [frequencyRatio, setFrequencyRatio] = useState<number | null>(null);
 
     useEffect(() => {
         // Initialize the synth
@@ -33,6 +35,10 @@ const TwelveTETDemo: React.FC = () => {
 
     const calculateCents = (freq1: number, freq2: number) => {
         return 1200 * Math.log2(freq2 / freq1);
+    };
+
+    const calculateFrequencyRatio = (frequency: number) => {
+        return frequency / referencePitch;
     };
 
     const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -111,6 +117,8 @@ const TwelveTETDemo: React.FC = () => {
     const playNote = (midiNumber: number) => {
         const freq = calculateFrequency(midiNumber);
         setCurrentFrequency(freq);
+        setCurrentNote(noteNames[midiNumber % 12]);
+        setFrequencyRatio(calculateFrequencyRatio(freq));
         if (synth) {
             synth.triggerAttackRelease(freq, '0.2');
         }
@@ -119,6 +127,8 @@ const TwelveTETDemo: React.FC = () => {
 
     const stopNote = () => {
         setCurrentFrequency(null);
+        setCurrentNote(null);
+        setFrequencyRatio(null);
         if (synth) {
             synth.triggerRelease();
         }
@@ -132,6 +142,10 @@ const TwelveTETDemo: React.FC = () => {
             await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms between notes
         }
         setIsPlayingSequence(false);
+    };
+
+    const formatRatio = (ratio: number) => {
+        return ratio.toFixed(3);
     };
 
     // Piano configuration
@@ -149,7 +163,14 @@ const TwelveTETDemo: React.FC = () => {
             <div className="frequency-display" style={{ height: '24px', marginBottom: '10px' }}>
                 {currentFrequency ? (
                     <>
+                        <p>Current Note: {currentNote}</p>
                         <p>Current Frequency: {currentFrequency.toFixed(2)} Hz</p>
+                        {frequencyRatio && (
+                            <p>
+                                Frequency Ratio to A4: {formatRatio(frequencyRatio)}
+                                {frequencyRatio !== 1 && ` (${formatRatio(1 / frequencyRatio)})`}
+                            </p>
+                        )}
                         {showCents && (
                             <p>
                                 Cents from A4: {calculateCents(referencePitch, currentFrequency).toFixed(2)}
@@ -206,6 +227,8 @@ const TwelveTETDemo: React.FC = () => {
                 <p>The frequency doubles for notes an octave apart</p>
                 <p>Blue notes show whole steps from the played note (highlighted in red)</p>
                 <p>Click "Play All 12 Tones" to hear the equal temperament division of the octave</p>
+                <p>The frequency ratio shows the mathematical relationship between the current note and A4</p>
+                <p>For ratios other than 1, the inverse ratio is shown in parentheses</p>
             </div>
         </div>
     );
