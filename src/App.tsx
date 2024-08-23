@@ -11,6 +11,7 @@ import FamilyTreeHarmonic from "./FamilyTreeHarmonic";
 import JustIntonationChoir from "./JustIntonationChoir";
 import TuningSystemsDemo from "./TuningSystemsDemo";
 import { IntervalExplorer } from "./IntervalExplorer";
+import { MusicBuildingBlocks } from "./MusicBuildingBlocks";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <JustIntonationChoir />
       <TuningSystemsDemo />
       <IntervalExplorer />
+      <MusicBuildingBlocks />
     </div>
   );
 }
