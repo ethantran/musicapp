@@ -12,6 +12,8 @@ const TwelveTETDemo: React.FC = () => {
     const [referencePitch, setReferencePitch] = useState(440);
     const [showCents, setShowCents] = useState(false);
     const [synth, setSynth] = useState<Tone.Synth | null>(null);
+    const [highlightedKeys, setHighlightedKeys] = useState<number[]>([]);
+    const [isPlayingSequence, setIsPlayingSequence] = useState(false);
 
     useEffect(() => {
         // Initialize the synth
@@ -34,6 +36,32 @@ const TwelveTETDemo: React.FC = () => {
     };
 
     const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+    const highlightWholeSteps = (midiNumber: number) => {
+        const baseNote = midiNumber % 12;
+        const wholeSteps = [2, 2, 1, 2, 2, 2, 1]; // Whole and half step pattern
+        let highlighted = [midiNumber];
+        let currentNote = baseNote;
+
+        for (let i = 0; i < 7; i++) {
+            currentNote = (currentNote + wholeSteps[i]) % 12;
+            highlighted.push(midiNumber - baseNote + currentNote);
+        }
+
+        setHighlightedKeys(highlighted);
+    };
+
+    const renderNoteLabel = ({ midiNumber, isActive, isAccidental }: any) => {
+        const noteName = noteNames[midiNumber % 12];
+        const isHighlighted = highlightedKeys.includes(midiNumber);
+        const style: React.CSSProperties = {
+            color: isActive ? 'red' : isHighlighted ? 'blue' : isAccidental ? 'white' : 'black',
+            fontSize: '12px',
+            fontWeight: isHighlighted ? 'bold' : 'normal',
+        };
+        return <div style={style}>{noteName}</div>;
+    };
+
     const frequencies = noteNames.map((_, index) => calculateFrequency(60 + index));
 
     const chartData = {
@@ -84,8 +112,9 @@ const TwelveTETDemo: React.FC = () => {
         const freq = calculateFrequency(midiNumber);
         setCurrentFrequency(freq);
         if (synth) {
-            synth.triggerAttack(freq);
+            synth.triggerAttackRelease(freq, '0.2');
         }
+        highlightWholeSteps(midiNumber);
     };
 
     const stopNote = () => {
@@ -93,6 +122,16 @@ const TwelveTETDemo: React.FC = () => {
         if (synth) {
             synth.triggerRelease();
         }
+    };
+
+    const playAllTones = async () => {
+        setIsPlayingSequence(true);
+        const baseNote = MidiNumbers.fromNote('C4');
+        for (let i = 0; i < 12; i++) {
+            playNote(baseNote + i);
+            await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms between notes
+        }
+        setIsPlayingSequence(false);
     };
 
     // Piano configuration
@@ -131,6 +170,7 @@ const TwelveTETDemo: React.FC = () => {
                     stopNote={stopNote}
                     width={1000}
                     keyboardShortcuts={keyboardShortcuts}
+                    renderNoteLabel={renderNoteLabel}
                 />
             </div>
             <div className="controls">
@@ -153,11 +193,19 @@ const TwelveTETDemo: React.FC = () => {
                     />
                     Show cents
                 </label>
+                <button
+                    onClick={playAllTones}
+                    disabled={isPlayingSequence}
+                >
+                    {isPlayingSequence ? 'Playing...' : 'Play All 12 Tones'}
+                </button>
             </div>
             <div className="info">
                 <p>One octave consists of 12 half-steps (semitones)</p>
                 <p>There are 100 cents in one semitone</p>
                 <p>The frequency doubles for notes an octave apart</p>
+                <p>Blue notes show whole steps from the played note (highlighted in red)</p>
+                <p>Click "Play All 12 Tones" to hear the equal temperament division of the octave</p>
             </div>
         </div>
     );
