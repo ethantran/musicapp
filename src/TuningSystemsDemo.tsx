@@ -3,6 +3,7 @@ import * as Tone from 'tone';
 import { CircleVisualization } from './CircleVisualization';
 import { InteractiveKeyboard } from './InteractiveKeyboard';
 import { HistoricalContext } from './HistoricalContext';
+import { SpectrumAnalyzer } from './SpectrumAnalyzer';
 import { TuningComparison } from './TuningComparison';
 import { TuningSystem, tuningSystems } from './TuningSystems';
 
@@ -12,26 +13,25 @@ function TuningSystemsDemo() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentNote, setCurrentNote] = useState<number | null>(null);
     const synthRef = useRef<Tone.Synth | null>(null);
-    const [audioInitialized, setAudioInitialized] = useState(false);
+    const analyserRef = useRef<Tone.Analyser | null>(null);
 
     useEffect(() => {
         synthRef.current = new Tone.Synth().toDestination();
+        analyserRef.current = new Tone.Analyser('fft', 2048);
+        synthRef.current.connect(analyserRef.current);
+
         return () => {
             if (synthRef.current) {
                 synthRef.current.dispose();
             }
+            if (analyserRef.current) {
+                analyserRef.current.dispose();
+            }
         };
     }, []);
 
-    const initializeAudio = async () => {
-        await Tone.start();
-        setAudioInitialized(true);
-    };
-
     const playNote = async (frequency: number) => {
-        if (!audioInitialized) {
-            await initializeAudio();
-        }
+        await Tone.start();
         if (synthRef.current) {
             synthRef.current.triggerAttackRelease(frequency, "8n");
             setCurrentNote(frequency);
@@ -42,9 +42,7 @@ function TuningSystemsDemo() {
     };
 
     const playScale = async () => {
-        if (!audioInitialized) {
-            await initializeAudio();
-        }
+        await Tone.start();
         const now = Tone.now();
         activeSystem.frequencies.forEach((freq, index) => {
             synthRef.current?.triggerAttackRelease(freq, "8n", now + index * 0.5);
@@ -93,8 +91,10 @@ function TuningSystemsDemo() {
                 currentNote={currentNote}
             />
 
-            <button onClick={() => audioInitialized ? setIsPlaying(!isPlaying) : initializeAudio()}>
-                {audioInitialized ? (isPlaying ? 'Stop' : 'Play Scale') : 'Initialize Audio'}
+            <SpectrumAnalyzer analyser={analyserRef.current} />
+
+            <button onClick={() => setIsPlaying(!isPlaying)}>
+                {isPlaying ? 'Stop' : 'Play Scale'}
             </button>
 
             <TuningComparison
