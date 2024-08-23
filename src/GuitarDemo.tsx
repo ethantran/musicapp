@@ -13,7 +13,8 @@ const GuitarDemo = () => {
         // Simulate different timbres by adjusting the filter
         const filter = new Tone.Filter({
             type: 'lowpass',
-            frequency: pluckingPosition === 'bridge' ? 2000 : 1000,
+            frequency: pluckingPosition === 'bridge' ? 5000 : 500,
+            rolloff: -24,
         }).toDestination();
 
         synth.connect(filter);
@@ -25,7 +26,7 @@ const GuitarDemo = () => {
 
     return (
         <div>
-            <h1>Guitar Fretboard Demo</h1>
+            <h2>Guitar Fretboard Demo</h2>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                 <svg width="800" height="200">
                     {strings.map((string) => (
@@ -67,10 +68,24 @@ const GuitarDemo = () => {
                     )}
                 </svg>
             </div>
-            <div>Pluck Position: {pluckingPosition}</div>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                <button onClick={() => setPluckingPosition('middle')}>Pluck Middle</button>
-                <button onClick={() => setPluckingPosition('bridge')}>Pluck Near Bridge</button>
+                <button
+                    onClick={() => setPluckingPosition('middle')}
+                    style={{
+                        backgroundColor: pluckingPosition === 'middle' ? 'blue' : 'black',
+                        marginRight: '10px',
+                    }}
+                >
+                    Pluck Middle
+                </button>
+                <button
+                    onClick={() => setPluckingPosition('bridge')}
+                    style={{
+                        backgroundColor: pluckingPosition === 'bridge' ? 'blue' : 'black',
+                    }}
+                >
+                    Pluck Near Bridge
+                </button>
             </div>
         </div>
     );

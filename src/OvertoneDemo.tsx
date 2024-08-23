@@ -51,7 +51,7 @@ const OvertoneDemo = () => {
 
     return (
         <div>
-            <h1>Overtone Series Demo</h1>
+            <h2>Overtone Series Demo</h2>
             <div>
                 <label>Fundamental Frequency: </label>
                 <input

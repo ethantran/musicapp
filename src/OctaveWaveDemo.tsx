@@ -82,6 +82,7 @@ const OctaveWaveDemo: React.FC = () => {
 
     return (
         <div>
+            <h2>Octave Wave Demo</h2>
             <canvas ref={canvasRef} width={800} height={200} style={{ border: '1px solid black' }} />
             <br />
             <button onClick={() => playNote('C4')} disabled={playingNote !== null}>

@@ -17,36 +17,43 @@ const NoteCircle = () => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <div style={{ position: 'relative', width: '300px', height: '300px' }}>
-                {notes.map((note, index) => {
-                    const angle = (index * 30 - 90) * (Math.PI / 180);
-                    const x = 150 + 120 * Math.cos(angle);
-                    const y = 150 + 120 * Math.sin(angle);
-                    return (
-                        <button
-                            key={note}
-                            onClick={() => playNote(note)}
-                            style={{
-                                position: 'absolute',
-                                left: `${x}px`,
-                                top: `${y}px`,
-                                transform: 'translate(-50%, -50%)',
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                background: '#4CAF50',
-                                color: 'white',
-                                border: 'none',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            {note}
-                        </button>
-                    );
-                })}
+        <section>
+            <header className="App-header">
+                <h2>The Note Circle</h2>
+                <p>Click on a note to hear its sound. Moving clockwise ascends in pitch, counter-clockwise descends.</p>
+            </header>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+
+                <div style={{ position: 'relative', width: '300px', height: '300px' }}>
+                    {notes.map((note, index) => {
+                        const angle = (index * 30 - 90) * (Math.PI / 180);
+                        const x = 150 + 120 * Math.cos(angle);
+                        const y = 150 + 120 * Math.sin(angle);
+                        return (
+                            <button
+                                key={note}
+                                onClick={() => playNote(note)}
+                                style={{
+                                    position: 'absolute',
+                                    left: `${x}px`,
+                                    top: `${y}px`,
+                                    transform: 'translate(-50%, -50%)',
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '50%',
+                                    background: '#4CAF50',
+                                    color: 'white',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                {note}
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

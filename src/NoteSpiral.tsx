@@ -31,6 +31,7 @@ const NoteSpiral = () => {
 
     return (
         <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+            <h2>Note Spiral</h2>
             <Canvas camera={{ position: [0, 5, 15], fov: 75 }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} />
