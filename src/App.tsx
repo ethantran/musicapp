@@ -1,6 +1,7 @@
 import NoteCircle from "./NoteCircle";
 import NoteCircleWithOctaveControl from "./NoteCircleWithOctaveControl";
 import NoteSpiral from "./NoteSpiral";
+import OctaveWaveDemo from "./OctaveWaveDemo";
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
       <NoteCircleWithOctaveControl />
       <h2>Note Spiral</h2>
       <NoteSpiral />
+      <h2>Octave Wave Demo</h2>
+      <OctaveWaveDemo />
     </div>
   );
 }
