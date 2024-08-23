@@ -16,6 +16,9 @@ const TwelveTETDemo: React.FC = () => {
     const [isPlayingSequence, setIsPlayingSequence] = useState(false);
     const [currentNote, setCurrentNote] = useState<string | null>(null);
     const [frequencyRatio, setFrequencyRatio] = useState<number | null>(null);
+    const [microtonalAdjustment, setMicrotonalAdjustment] = useState(0);
+    const [baseFrequency, setBaseFrequency] = useState<number | null>(null);
+    const [isNoteActive, setIsNoteActive] = useState(false);
 
     useEffect(() => {
         // Initialize the synth
@@ -114,13 +117,20 @@ const TwelveTETDemo: React.FC = () => {
         },
     };
 
+    const calculateAdjustedFrequency = (baseFreq: number, cents: number) => {
+        return baseFreq * Math.pow(2, cents / 1200);
+    };
+
     const playNote = (midiNumber: number) => {
         const freq = calculateFrequency(midiNumber);
-        setCurrentFrequency(freq);
+        setBaseFrequency(freq);
+        const adjustedFreq = calculateAdjustedFrequency(freq, microtonalAdjustment);
+        setCurrentFrequency(adjustedFreq);
         setCurrentNote(noteNames[midiNumber % 12]);
-        setFrequencyRatio(calculateFrequencyRatio(freq));
+        setFrequencyRatio(calculateFrequencyRatio(adjustedFreq));
         if (synth) {
-            synth.triggerAttackRelease(freq, '0.2');
+            synth.triggerAttack(adjustedFreq);
+            setIsNoteActive(true);
         }
         highlightWholeSteps(midiNumber);
     };
@@ -129,6 +139,7 @@ const TwelveTETDemo: React.FC = () => {
         setCurrentFrequency(null);
         setCurrentNote(null);
         setFrequencyRatio(null);
+        setIsNoteActive(false);
         if (synth) {
             synth.triggerRelease();
         }
@@ -146,6 +157,18 @@ const TwelveTETDemo: React.FC = () => {
 
     const formatRatio = (ratio: number) => {
         return ratio.toFixed(3);
+    };
+
+    const adjustMicrotone = (cents: number) => {
+        setMicrotonalAdjustment(cents);
+        if (baseFrequency && isNoteActive) {
+            const adjustedFreq = calculateAdjustedFrequency(baseFrequency, cents);
+            setCurrentFrequency(adjustedFreq);
+            setFrequencyRatio(calculateFrequencyRatio(adjustedFreq));
+            if (synth) {
+                synth.frequency.setValueAtTime(adjustedFreq, Tone.now());
+            }
+        }
     };
 
     // Piano configuration
@@ -176,6 +199,7 @@ const TwelveTETDemo: React.FC = () => {
                                 Cents from A4: {calculateCents(referencePitch, currentFrequency).toFixed(2)}
                             </p>
                         )}
+                        <p>Microtonal Adjustment: {microtonalAdjustment} cents</p>
                     </>
                 ) : (
                     <p>&nbsp;</p>
@@ -220,6 +244,18 @@ const TwelveTETDemo: React.FC = () => {
                 >
                     {isPlayingSequence ? 'Playing...' : 'Play All 12 Tones'}
                 </button>
+                <div className="microtone-control">
+                    <label htmlFor="microtone-slider">Microtone Adjustment (cents):</label>
+                    <input
+                        id="microtone-slider"
+                        type="range"
+                        min="-50"
+                        max="50"
+                        value={microtonalAdjustment}
+                        onChange={(e) => adjustMicrotone(Number(e.target.value))}
+                    />
+                    <span>{microtonalAdjustment}</span>
+                </div>
             </div>
             <div className="info">
                 <p>One octave consists of 12 half-steps (semitones)</p>
@@ -229,6 +265,8 @@ const TwelveTETDemo: React.FC = () => {
                 <p>Click "Play All 12 Tones" to hear the equal temperament division of the octave</p>
                 <p>The frequency ratio shows the mathematical relationship between the current note and A4</p>
                 <p>For ratios other than 1, the inverse ratio is shown in parentheses</p>
+                <p>Use the microtone slider to adjust the pitch up to 50 cents sharp or flat</p>
+                <p>100 cents equal one semitone in 12-TET</p>
             </div>
         </div>
     );
