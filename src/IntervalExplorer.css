@@ -1,0 +1,99 @@
+.interval-explorer {
+    max-width: 1400px;
+    /* Increased from 1200px */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.interval-circle-container {
+    width: 600px;
+    /* Increased from 400px */
+    height: 600px;
+    /* Increased from 400px */
+    position: relative;
+}
+
+.interval-circle {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.interval-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    padding: 8px 12px;
+    /* Slightly increased padding */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    /* Increased from 15px */
+    font-size: 14px;
+    /* Slightly increased font size */
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.interval-button.perfect {
+    background-color: #a0e7a0;
+}
+
+.interval-button.major {
+    background-color: #a0a0e7;
+}
+
+.interval-button.minor {
+    background-color: #e7a0a0;
+}
+
+.interval-button.augmented {
+    background-color: #e7e7a0;
+}
+
+.interval-button.diminished {
+    background-color: #e7a0e7;
+}
+
+.interval-button:hover {
+    transform: scale(1.1);
+    /* Added a slight scale effect on hover */
+}
+
+.interval-button.diatonic {
+    background-color: #a0e7a0;
+}
+
+.interval-button.diatonic:hover {
+    background-color: #90d790;
+}
+
+.info-panel {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    /* Increased from 500px */
+}
+
+.interval-info,
+.explanation {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.interval-info h3,
+.explanation h3 {
+    margin-top: 0;
+}

@@ -10,6 +10,7 @@ import TwelveTetCalc from "./TwelveTetCalc";
 import FamilyTreeHarmonic from "./FamilyTreeHarmonic";
 import JustIntonationChoir from "./JustIntonationChoir";
 import TuningSystemsDemo from "./TuningSystemsDemo";
+import { IntervalExplorer } from "./IntervalExplorer";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <FamilyTreeHarmonic />
       <JustIntonationChoir />
       <TuningSystemsDemo />
+      <IntervalExplorer />
     </div>
   );
 }
