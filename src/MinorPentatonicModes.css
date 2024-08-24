@@ -1,0 +1,61 @@
+.minor-pentatonic-modes table {
+    border-collapse: collapse;
+}
+
+.minor-pentatonic-modes th,
+.minor-pentatonic-modes td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.minor-pentatonic-modes input {
+    width: 30px;
+    text-align: center;
+}
+
+.minor-pentatonic-modes .correct {
+    background-color: #d4edda;
+}
+
+.minor-pentatonic-modes .incorrect {
+    background-color: #f8d7da;
+}
+
+.minor-pentatonic-modes button {
+    margin-top: 20px;
+}
+
+.minor-pentatonic-modes .root-select {
+    margin-bottom: 20px;
+}
+
+.minor-pentatonic-modes .root-select select {
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.minor-pentatonic-modes input {
+    width: 40px;
+    /* Increased width to accommodate sharp notes */
+}
+
+.minor-pentatonic-modes .mode-name {
+    cursor: help;
+    font-weight: bold;
+    position: relative;
+}
+
+.minor-pentatonic-modes .mode-name:hover::after {
+    content: 'Hover for more info';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+}

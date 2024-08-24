@@ -13,6 +13,7 @@ import TuningSystemsDemo from "./TuningSystemsDemo";
 import { IntervalExplorer } from "./IntervalExplorer";
 import { MusicBuildingBlocks } from "./MusicBuildingBlocks";
 import ScaleDemo from "./ScaleDemo";
+import MinorPentatonicModes from "./MinorPentatonicModes";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <IntervalExplorer />
       <MusicBuildingBlocks />
       <ScaleDemo />
+      <MinorPentatonicModes />
     </div>
   );
 }
