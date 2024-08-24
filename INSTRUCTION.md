@@ -75,7 +75,33 @@
     - Provide keyboard shortcuts for power users
     - Implement undo/redo functionality for drag and drop actions and live coding where appropriate
 
-11. Library Selection Guidelines:
+11. Sheet Music Features:
+    - Use VexFlow as the primary library for rendering and manipulating standard music notation:
+      - Create interactive exercises for note reading and writing
+      - Implement dynamic score generation based on user input or algorithmic composition
+    - Leverage OpenSheetMusicDisplay or OSMD for rendering MusicXML files:
+      - Display full scores or excerpts from classical or popular music
+      - Allow users to upload and render their own MusicXML files
+    - Utilize abcjs for quickly rendering simple melodies or chord progressions:
+      - Create interactive examples for harmonic analysis
+      - Implement real-time rendering of user-input melodies
+    - Employ Verovio for advanced music engraving and MEI file support:
+      - Render historically accurate scores for early music studies
+      - Create interactive critical editions with multiple versions of a score
+    - Use alphaTab for guitar-specific notation and tablature:
+      - Implement interactive fretboard diagrams linked to standard notation
+      - Create exercises for learning to read both standard notation and tablature
+    - Integrate Flat-IO API for comprehensive sheet music creation and editing:
+      - Implement a full-featured score editor for composition exercises
+      - Allow collaborative editing for group projects or teacher-student interactions
+    - Ensure smooth integration between sheet music rendering and audio playback:
+      - Implement synchronized highlighting of current measure during playback
+      - Allow click-to-play functionality for individual notes or measures
+    - Provide intuitive controls for sheet music navigation and zoom
+    - Implement transposition functionality for key signature studies
+    - Allow for annotation and markup of scores for analysis exercises
+
+12. Library Selection Guidelines:
     - Choose the most appropriate library based on the specific needs of each concept or interactive element:
       - Tone.js for general-purpose audio and music functionality
       - WebPD for Pure Data-style patching and synthesis
@@ -88,8 +114,15 @@
     - Consider performance implications when using multiple libraries
     - Ensure consistent user experience across different audio engines
     - Prefer libraries with good documentation and community support
+    - For sheet music functionality:
+      - VexFlow for general-purpose, flexible notation rendering
+      - OpenSheetMusicDisplay or OSMD for MusicXML support
+      - abcjs for quick, lightweight notation needs
+      - Verovio for MEI support and advanced engraving
+      - alphaTab for guitar-focused applications
+      - Flat-IO API for comprehensive sheet music creation and editing
 
-12. Performance optimization:
+13. Performance optimization:
     - Implement code splitting and lazy loading for faster initial load times
     - Use Web Workers for computationally intensive tasks to keep the UI responsive
     - Optimize renders using React.memo, useMemo, and useCallback
@@ -100,24 +133,34 @@ Remember to balance complexity with usability, ensuring the app remains accessib
 
 1. Accurate Timing
 
-Tone.js uses the Web Audio API for sample-accurate scheduling. If you are experience loose timing, double check that you are passing in the scheduled time the Transport provides into the event that you are scheduling:
+Tone.js uses the Web Audio API for sample-accurate scheduling. If you are experiencing loose timing, double check that you are passing in the scheduled time the Transport provides into the event that you are scheduling:
 
 INCORRECT:
+```
 Transport.schedule(() => {
   player.start();
 }, 0);
+```
+
 CORRECT:
+```
 Transport.schedule((time) => {
   player.start(time);
 }, 0);
+```
+
 Event Classes
 This is similarly true for all of the event classes like Part, Sequence, Loop, Pattern, etc.
 
 INCORRECT:
+```
 new Part((time, event) => {
   synth.triggerAttackRelease(event.note, event.duration);
 }, events);
+```
+
 CORRECT:
+```
 new Part((time, event) => {
   synth.triggerAttackRelease(event.note, event.duration, time);
 }, events);
