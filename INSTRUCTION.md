@@ -85,42 +85,42 @@
     - Utilize abcjs for quickly rendering simple melodies or chord progressions:
       - Create interactive examples for harmonic analysis
       - Implement real-time rendering of user-input melodies
+      - Utilize its basic MIDI playback for simple audio feedback
     - Employ Verovio for advanced music engraving and MEI file support:
       - Render historically accurate scores for early music studies
       - Create interactive critical editions with multiple versions of a score
     - Use alphaTab for guitar-specific notation and tablature:
       - Implement interactive fretboard diagrams linked to standard notation
       - Create exercises for learning to read both standard notation and tablature
-    - Integrate Flat-IO API for comprehensive sheet music creation and editing:
+    - Integrate Flat-IO API for comprehensive sheet music creation, editing, and playback:
       - Implement a full-featured score editor for composition exercises
       - Allow collaborative editing for group projects or teacher-student interactions
+      - Utilize its built-in playback features for high-quality audio rendering
+    - Implement interactive audio playback features:
+      - Integrate sheet music rendering with Tone.js or another audio library for high-quality instrument samples
+      - Enable click-to-play functionality for individual notes:
+        - Map note positions in the rendered sheet music to their corresponding pitches
+        - Trigger appropriate audio samples when a note is clicked
+      - Implement full sheet playback:
+        - Synchronize the rendered sheet music with audio playback
+        - Highlight current measure or note during playback for easy following
+      - Use realistic piano samples (or other instrument samples as needed) for playback:
+        - Utilize Tone.js' sampler functionality or other sample-based synthesis methods
+        - Consider using high-quality sample libraries for the most realistic sound
     - Ensure smooth integration between sheet music rendering and audio playback:
       - Implement synchronized highlighting of current measure during playback
-      - Allow click-to-play functionality for individual notes or measures
-    - Provide intuitive controls for sheet music navigation and zoom
+      - Allow for real-time tempo adjustments during playback
+    - Provide intuitive controls for sheet music navigation, zoom, and playback
     - Implement transposition functionality for key signature studies
     - Allow for annotation and markup of scores for analysis exercises
 
-12. Library Selection Guidelines:
-    - Choose the most appropriate library based on the specific needs of each concept or interactive element:
-      - Tone.js for general-purpose audio and music functionality
-      - WebPD for Pure Data-style patching and synthesis
-      - Gibber for live coding and audiovisual integration
-      - SuperCollider.js for advanced synthesis and algorithmic composition
-      - Flocking for declarative, unit generator-based synthesis
-      - Tidal.js for pattern-based sequencing and rhythmic exploration
-      - Csound for comprehensive signal processing and analysis
-      - MaxiLib.js for additional synthesis techniques and audio processing
-    - Consider performance implications when using multiple libraries
-    - Ensure consistent user experience across different audio engines
-    - Prefer libraries with good documentation and community support
-    - For sheet music functionality:
-      - VexFlow for general-purpose, flexible notation rendering
-      - OpenSheetMusicDisplay or OSMD for MusicXML support
-      - abcjs for quick, lightweight notation needs
-      - Verovio for MEI support and advanced engraving
-      - alphaTab for guitar-focused applications
-      - Flat-IO API for comprehensive sheet music creation and editing
+12. Audio-Visual Integration Guidelines:
+    - Ensure tight synchronization between visual sheet music and audio playback
+    - Implement clear visual feedback for interactive elements (e.g., highlighting notes on click)
+    - Use consistent UI elements for playback controls across different types of musical content
+    - Consider accessibility features, such as keyboard navigation for playback and note selection
+    - Optimize performance to handle both rendering and audio processing smoothly
+    - Implement proper error handling for cases where audio samples might fail to load
 
 13. Performance optimization:
     - Implement code splitting and lazy loading for faster initial load times
