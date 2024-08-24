@@ -4,13 +4,27 @@ import { Piano } from './Piano';
 import { ScaleVisualizer } from './ScaleVisualizer';
 import { ScaleSelector } from './ScaleSelector';
 import { InfoPanel } from './InfoPanel';
+import { MoodExplainer } from './MoodExplainer';
+import { ScaleTheory } from './ScaleTheory';
+import { ScaleFormulaDemo } from './ScaleFormulaDemo';
+import { ModeShifter } from './ModeShifter';
+import ChordScaleVisualizer from './ChordScaleVisualizer';
 import './ScaleDemo.css';
+import ModalEarTraining from './ModalEarTraining';
+import ModePlayground from './ModePlayground';
+import ChordScaleMatrix from './ChordScaleMatrix';
 
 const scales = {
     chromatic: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
     minorPentatonic: ['C', 'Eb', 'F', 'G', 'Bb'],
     majorPentatonic: ['C', 'D', 'E', 'G', 'A'],
     chinesePentatonic: ['F', 'G', 'A', 'C', 'D'],
+    majorDiatonic: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+    minorDiatonic: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+    harmonicMinor: ['A', 'B', 'C', 'D', 'E', 'F', 'G#'],
+    melodicMinor: ['A', 'B', 'C', 'D', 'E', 'F#', 'G#'],
+    bebop: ['C', 'D', 'E', 'F', 'G', 'A', 'Bb', 'B'],
+    syntheticExample: ['C', 'D', 'E', 'F#', 'G', 'A', 'Bb'],
 };
 
 const noteToFreq = (note) => {
@@ -48,10 +62,18 @@ function ScaleDemo() {
                 <div className="left-panel">
                     <ScaleSelector currentScale={currentScale} setCurrentScale={setCurrentScale} />
                     <InfoPanel currentScale={currentScale} />
+                    <MoodExplainer />
+                    <ScaleTheory />
                 </div>
                 <div className="right-panel">
                     <ScaleVisualizer scale={scales[currentScale]} playNote={playNote} currentScale={currentScale} />
                     <Piano scale={scales[currentScale]} playNote={playNote} currentScale={currentScale} />
+                    {currentScale === 'minorPentatonic' && <ScaleFormulaDemo />}
+                    <ModeShifter />
+                    <ChordScaleVisualizer />
+                    <ModePlayground />
+                    <ModalEarTraining />
+                    <ChordScaleMatrix />
                 </div>
             </div>
         </div>

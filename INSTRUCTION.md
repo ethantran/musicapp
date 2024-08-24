@@ -75,9 +75,52 @@
     - Provide keyboard shortcuts for power users
     - Implement undo/redo functionality for drag and drop actions and live coding where appropriate
 
-11. Performance optimization:
+11. Library Selection Guidelines:
+    - Choose the most appropriate library based on the specific needs of each concept or interactive element:
+      - Tone.js for general-purpose audio and music functionality
+      - WebPD for Pure Data-style patching and synthesis
+      - Gibber for live coding and audiovisual integration
+      - SuperCollider.js for advanced synthesis and algorithmic composition
+      - Flocking for declarative, unit generator-based synthesis
+      - Tidal.js for pattern-based sequencing and rhythmic exploration
+      - Csound for comprehensive signal processing and analysis
+      - MaxiLib.js for additional synthesis techniques and audio processing
+    - Consider performance implications when using multiple libraries
+    - Ensure consistent user experience across different audio engines
+    - Prefer libraries with good documentation and community support
+
+12. Performance optimization:
     - Implement code splitting and lazy loading for faster initial load times
     - Use Web Workers for computationally intensive tasks to keep the UI responsive
     - Optimize renders using React.memo, useMemo, and useCallback
 
 Remember to balance complexity with usability, ensuring the app remains accessible to beginners while offering depth for advanced users. Always prioritize the quality and effectiveness of visualizations and interactions, using the most appropriate tools for each specific use case.
+
+# Tone.js usage tips:
+
+1. Accurate Timing
+
+Tone.js uses the Web Audio API for sample-accurate scheduling. If you are experience loose timing, double check that you are passing in the scheduled time the Transport provides into the event that you are scheduling:
+
+INCORRECT:
+Transport.schedule(() => {
+  player.start();
+}, 0);
+CORRECT:
+Transport.schedule((time) => {
+  player.start(time);
+}, 0);
+Event Classes
+This is similarly true for all of the event classes like Part, Sequence, Loop, Pattern, etc.
+
+INCORRECT:
+new Part((time, event) => {
+  synth.triggerAttackRelease(event.note, event.duration);
+}, events);
+CORRECT:
+new Part((time, event) => {
+  synth.triggerAttackRelease(event.note, event.duration, time);
+}, events);
+
+2. Ensure you are preventing the "Max polyphony exceeded" error
+

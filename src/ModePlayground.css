@@ -1,0 +1,56 @@
+.mode-playground {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.mode-playground .controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.mode-playground .controls select {
+    margin-left: 10px;
+}
+
+.mode-playground .actions {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.mode-playground .actions button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.mode-playground .scale-display {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.mode-playground .improvisation-keyboard {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.mode-playground .improvisation-keyboard button {
+    width: 40px;
+    height: 120px;
+    margin: 0 2px;
+    font-size: 16px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+}
+
+.mode-playground .improvisation-keyboard button:active {
+    background-color: #e0e0e0;
+}
+
+.mode-playground .explanation {
+    text-align: center;
+}
