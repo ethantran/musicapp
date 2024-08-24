@@ -1,0 +1,129 @@
+.scale-demo {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.main-content {
+    display: flex;
+    gap: 30px;
+}
+
+.left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Add these styles to your existing component CSS files or create new ones */
+
+.scale-selector select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.info-panel {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.scale-visualizer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.scale-visualizer svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.scale-visualizer .note circle {
+    cursor: pointer;
+    transition: fill 0.2s;
+}
+
+.scale-visualizer .note:hover circle {
+    fill: #45a049;
+}
+
+.scale-visualizer .note text {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.piano-wrapper {
+    margin-top: 20px;
+    position: relative;
+}
+
+.react-piano {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.react-piano .ReactPiano__Key--active {
+    background: #4CAF50 !important;
+}
+
+.react-piano .ReactPiano__Key--accidental {
+    background: #333;
+}
+
+.react-piano .ReactPiano__Key--natural {
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.react-piano .ReactPiano__Key.in-scale {
+    background: #e6f3e6;
+}
+
+.react-piano .ReactPiano__Key--accidental.in-scale {
+    background: #45a049;
+}
+
+.note-label {
+    font-size: 12px;
+    color: #333;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+
+.note-label.in-scale {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.scale-name {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}

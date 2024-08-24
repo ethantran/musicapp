@@ -49,4 +49,7 @@ export default tseslint.config({
 })
 ```
 
-Turn this lesson into an interactive visual audible real-time tacticle demo. Focus on unpacking the complex new terminology introduced and finding metaphorical associations to reduce mathematical cerebral nature of things and to create more intuitiveness and humanness. 
+Turn this lesson into an interactive visual audible real-time tacticle demo. 
+Focus on unpacking the complex new terminology introduced and finding metaphorical associations and other unconventional ways to reduce mathematical cerebral nature of things and to create more intuitiveness, insight, humanness, discovery, relationships, and fun. 
+Use TypeScript, React.js, and Tone.js as a base. Add in other libraries and frameworks as needed. 
+Use 3D space with react-three-fiber only if the extra dimension is needed to convey the concept. 

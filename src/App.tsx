@@ -12,6 +12,7 @@ import JustIntonationChoir from "./JustIntonationChoir";
 import TuningSystemsDemo from "./TuningSystemsDemo";
 import { IntervalExplorer } from "./IntervalExplorer";
 import { MusicBuildingBlocks } from "./MusicBuildingBlocks";
+import ScaleDemo from "./ScaleDemo";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <TuningSystemsDemo />
       <IntervalExplorer />
       <MusicBuildingBlocks />
+      <ScaleDemo />
     </div>
   );
 }
