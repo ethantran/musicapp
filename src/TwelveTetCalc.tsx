@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
 
 const TwelveTetCalc: React.FC = () => {
     const [referenceFrequency, setReferenceFrequency] = useState(440);
     const [selectedSemitones, setSelectedSemitones] = useState(0);
-    const [synth] = useState(new Tone.Synth().toDestination());
+    const [synth, setSynth] = useState<Tone.Synth | null>(null);
+
+    useEffect(() => {
+        const initAudio = async () => {
+            await Tone.start();
+            setSynth(new Tone.Synth().toDestination());
+        };
+
+        const handleFirstInteraction = () => {
+            initAudio();
+            window.removeEventListener('click', handleFirstInteraction);
+        };
+
+        window.addEventListener('click', handleFirstInteraction);
+
+        return () => {
+            window.removeEventListener('click', handleFirstInteraction);
+        };
+    }, []);
 
     const calculateFrequency = (semitones: number) => {
         const a = Math.pow(2, 1 / 12); // 12th root of 2
@@ -12,7 +30,9 @@ const TwelveTetCalc: React.FC = () => {
     };
 
     const playNote = (frequency: number) => {
-        synth.triggerAttackRelease(frequency, '0.5');
+        if (synth) {
+            synth.triggerAttackRelease(frequency, '0.5');
+        }
     };
 
     const semitoneOptions = Array.from({ length: 25 }, (_, i) => i - 12);
