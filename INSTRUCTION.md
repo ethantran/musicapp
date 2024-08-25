@@ -126,8 +126,113 @@
     - Implement code splitting and lazy loading for faster initial load times
     - Use Web Workers for computationally intensive tasks to keep the UI responsive
     - Optimize renders using React.memo, useMemo, and useCallback
+    - Implement proper cleanup of event listeners and audio resources in useEffect cleanup functions
+    - Use React.lazy and Suspense for component-level code splitting
+    - Optimize audio processing by reusing Tone.js objects when possible
+    - Implement debounce or throttle for frequently called functions (e.g., audio parameter changes)
 
-Remember to balance complexity with usability, ensuring the app remains accessible to beginners while offering depth for advanced users. Always prioritize the quality and effectiveness of visualizations and interactions, using the most appropriate tools for each specific use case.
+14. Tone.js and Web Audio API Best Practices:
+    - Initialize Tone.js context only after user interaction:
+      ```typescript
+      const initAudio = async () => {
+        await Tone.start();
+        // Initialize your Tone.js instruments and effects here
+      };
+
+      // Call initAudio() after a user gesture, e.g., button click
+      ```
+    - Use React's useEffect hook to set up event listeners for initializing audio:
+      ```typescript
+      useEffect(() => {
+        const handleFirstInteraction = () => {
+          initAudio();
+          window.removeEventListener('click', handleFirstInteraction);
+        };
+        window.addEventListener('click', handleFirstInteraction);
+        return () => window.removeEventListener('click', handleFirstInteraction);
+      }, []);
+      ```
+    - Avoid creating Tone.js instruments or effects in component render methods
+    - Use React state to manage Tone.js objects:
+      ```typescript
+      const [synth, setSynth] = useState<Tone.Synth | null>(null);
+      ```
+    - Always check if audio objects are initialized before using them:
+      ```typescript
+      const playNote = (frequency: number) => {
+        if (synth) {
+          synth.triggerAttackRelease(frequency, '0.5');
+        }
+      };
+      ```
+    - Consider creating a custom hook for managing Tone.js initialization and state
+    - Implement proper cleanup of Tone.js objects in useEffect cleanup functions
+    - Use Tone.Transport for scheduling and timing-sensitive operations
+    - Implement volume controls and a master mute button for user convenience
+    - Always start Tone.js before creating or using any Tone.js objects:
+      ```typescript
+      const initAudio = async () => {
+        await Tone.start();
+        console.log('Audio is ready');
+        // Only create Tone.js objects after this point
+        const synth = new Tone.Synth().toDestination();
+        setSynth(synth);
+      };
+      ```
+    - Implement a user interface element (e.g., a "Start Audio" button) to trigger audio initialization:
+      ```typescript
+      const AudioInitButton: React.FC = () => {
+        const [isAudioReady, setIsAudioReady] = useState(false);
+        
+        const handleClick = async () => {
+          await Tone.start();
+          setIsAudioReady(true);
+        };
+        
+        return (
+          <button onClick={handleClick} disabled={isAudioReady}>
+            {isAudioReady ? 'Audio Ready' : 'Start Audio'}
+          </button>
+        );
+      };
+      ```
+    - Use a context or state management solution to track audio initialization status across components
+    - Ensure all audio-related functionality is gated behind the audio initialization:
+      ```typescript
+      const playNote = (frequency: number) => {
+        if (Tone.context.state === 'running' && synth) {
+          synth.triggerAttackRelease(frequency, '0.5');
+        } else {
+          console.warn('Audio not initialized. Please start audio first.');
+        }
+      };
+      ```
+    - Use Tone.Transport for precise timing of audio events
+    - Implement a master volume control using Tone.Master
+    - Use Tone.js' built-in effects for audio processing when possible
+    - Implement proper disposal of Tone.js objects when they are no longer needed
+
+15. Audio Initialization and Management:
+    - Always initialize Tone.js context after user interaction to comply with browser autoplay policies
+    - Use a custom hook (e.g., useAudio) to manage audio state and initialization across components
+    - Implement proper cleanup of audio resources when components unmount
+    - Use React's useRef hook to store Tone.js objects to prevent unnecessary re-renders
+    - Implement a centralized audio state management system (e.g., using Context API) to track audio initialization status across the application
+
+16. Error Handling and Debugging:
+    - Implement comprehensive error handling for audio-related operations
+    - Use try-catch blocks for async operations, especially those involving audio initialization
+    - Provide clear error messages to users when audio operations fail
+    - Implement logging for audio-related events and errors to aid in debugging
+    - Use browser developer tools to monitor audio context state and performance
+    - Implement feature detection for Web Audio API support
+
+17. Mobile and Cross-Browser Compatibility:
+    - Test audio functionality across different browsers and devices
+    - Implement fallback strategies for browsers with limited Web Audio API support
+    - Handle touch events for mobile devices in addition to mouse events
+    - Optimize audio performance for mobile devices by limiting polyphony and using efficient audio processing techniques
+    - Implement responsive design for audio controls and visualizations
 
 # Tone.js usage tips:
 
@@ -164,6 +269,6 @@ CORRECT:
 new Part((time, event) => {
   synth.triggerAttackRelease(event.note, event.duration, time);
 }, events);
+```
 
-2. Ensure you are preventing the "Max polyphony exceeded" error
-
+2. Ensure you are preventing the "Max polyphony exceeded" error by properly managing and disposing of Tone.js objects when they are no longer needed.
