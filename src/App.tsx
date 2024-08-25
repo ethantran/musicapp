@@ -15,6 +15,7 @@ import { MusicBuildingBlocks } from "./MusicBuildingBlocks";
 import ScaleDemo from "./ScaleDemo";
 import MinorPentatonicModes from "./MinorPentatonicModes";
 import MajorScaleGenerator from "./MajorScaleGenerator";
+import { ScaleExplorer } from "./ScaleExplorer/ScaleExplorer";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <ScaleDemo />
       <MinorPentatonicModes />
       <MajorScaleGenerator />
+      <ScaleExplorer />
     </div>
   );
 }
