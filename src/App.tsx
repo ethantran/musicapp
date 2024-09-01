@@ -16,6 +16,10 @@ import ScaleDemo from "./ScaleDemo";
 import MinorPentatonicModes from "./MinorPentatonicModes";
 import MajorScaleGenerator from "./MajorScaleGenerator";
 import { ScaleExplorer } from "./ScaleExplorer/ScaleExplorer";
+import HarmonicMinorScaleExplorer from "./HarmonicMinorScaleExplorer/HarmonicMinorScaleExplorer";
+import MelodicMinorScaleExplorer from "./MelodicMinorScaleExplorer/MelodicMinorScaleExplorer";
+import KeySignatureExplorer from "./KeySignatureExplorer/KeySignatureExplorer";
+import CircleOfFifthsExplorer from "./CircleOfFifthsExplorer/CircleOfFifthsExplorer";
 
 function App() {
   return (
@@ -38,6 +42,10 @@ function App() {
       <MinorPentatonicModes />
       <MajorScaleGenerator />
       <ScaleExplorer />
+      <HarmonicMinorScaleExplorer />
+      <MelodicMinorScaleExplorer />
+      <KeySignatureExplorer />
+      <CircleOfFifthsExplorer />
     </div>
   );
 }

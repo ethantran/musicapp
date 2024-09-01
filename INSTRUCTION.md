@@ -272,3 +272,14 @@ new Part((time, event) => {
 ```
 
 2. Ensure you are preventing the "Max polyphony exceeded" error by properly managing and disposing of Tone.js objects when they are no longer needed.
+
+3. Handle note names correctly:
+   - Tone.js uses '#' for sharps and 'b' for flats.
+   - Clean up note names before passing them to Tone.js functions:
+```
+const cleanNoteName = (note: string) => {
+return note.replace('♯', '#').replace('♭', 'b').split('/')[0];
+};
+// Usage
+synth.triggerAttackRelease(cleanNoteName(noteName) + '4', '0.5');
+```
